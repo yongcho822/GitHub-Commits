@@ -2,6 +2,7 @@
 import json
 import requests
 import time
+import matplotlib.pyplot as plt
 
 API = 'https://api.github.com/repos/mbostock/d3/stats/commit_activity'
 #from the dev github website (https://developer.github.com/v3/repos/statistics/), figure out how to get last year(52wks)
@@ -45,12 +46,16 @@ def weekday_tally(api_address): #want to create a dictionary to tally up weekday
         mydict["Saturday"] = mydict["Saturday"] + jsonoutput[i]["days"][6]
     print(mydict) #print compiled dictionary to see
     maxval = max(mydict.values()) #find the maximum tally number
+
+    plt.bar(range(len(mydict)), mydict.values(), align='center') #use matplotlib to create a barplot from our dictionary
+    plt.xticks(range(len(mydict)), list(mydict.keys()))
+
+    plt.show()
+
     topday = [k for k,v in mydict.items() if v == maxval] #use list comprehension and dict.items to return the corresponding top date.
     return topday
 
 print(weekday_tally(API))
-
-
 
 
 
